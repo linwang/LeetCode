@@ -1,35 +1,57 @@
 //given root node and a key
 //delete the node with with the key
 //return root node of bst
-//BST: left < parent < right
+//BST: left subtree < parent < right subtree
+
 function deleteKey(root, key)
 {
   console.log(`deleteKey(${key})`);
   //find node and delete it
   if(root.key === key)
   {
-    if(root.left !== null)
+    /*
+  	• Case 1: delete leaf, no children; delete node and  return null
+  	• Case 2: delete node with 1 child; delete node and return node's child
+  	• Case 3: delete node with 2 children; just return node but update the value to the largest from left subtree or right from right subtree; then it will delete the node with that value (recursion call, and only case 1 or 2 will be encountered)
+  		○ The subroutine (getMaxValue(root)) will need to find the node with the biggest value
+    */
+    if(root.left == null &&  root.right == null)
     {
-      root.key = root.left.key;
-      root.left = deleteKey(root.left, root.left.key);
+      return null;
     }
-    else if (root.right !== null)
+    if(root.left != null && root.right == null)
     {
-      root.key = root.right.key;
-      root.right = deleteKey(root.right, root.right.key);
+      return root.left;
+    }
+    else if (root.right != null && root.right == null)
+    {
+      return root.right
     }
     else
-      return null;
+    {
+      let findMax = function(root)
+      {
+        if(root.right == null)
+        {
+          return root.key;
+        }
+        return findMax(root.right);
+      }
+      root.key = findMax(root.left);//ideally in balanced tree, would check level
+      root.left = deleteKey(root.left, root.key);
+      return root;
+    }
+
   }
-  else if(key < root.key && root.left !== null)
+  else if(key < root.key && root.left != null)
   {
     root.left = deleteKey(root.left, key);
   }
-  else if(key > root.key && root.right !== null)
+  else if(key > root.key && root.right != null)
   {
     root.right = deleteKey(root.right, key);
   }
-   return root;
+   return root;  
 }
 function convertToBST(arr)
 {
