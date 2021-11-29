@@ -34,9 +34,8 @@ function getStationToStartTrip(gas, cost)
         start = noStation;
       }
     }
-
     //pick new station
-    if(gasLeft >= 0 && start === noStation) {
+    else if(gasLeft >= 0) {
       console.log(`set new start station = ${i}`);
       start = i;
       totalGasFrom = gasLeft;
