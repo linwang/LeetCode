@@ -24,50 +24,49 @@ function removeDuplicates(nums) {
   //go through the list again and do the shift smartly, then another O(n)
   //how to do the shift smartly?
   //[1,_,2] if I see a _, then I look forward to find first number, swap
-  // i = 0, iNum = 1, [0,_,1,_,_,2,_,3,_,4] => [0,1,_,_,_,2,_,3,_,4] i = 1, iNum = 1=>2
-  //=> [0,1,2,_,_,_,_,3,_,4] i = 2, iNum = 2 => 5; => [0,1,2,3,_,_,_,_,_,4] i = 3, iNum = 5 => 7
-  //I should keep track of my second pointer (iNum), can stop when iNum is at iEnd
-  //iNum should always be >= i. so if iNum < i, iNum = i.
+  // i = 0, second = 1, [0,_,1,_,_,2,_,3,_,4] => [0,1,_,_,_,2,_,3,_,4] i = 1, second = 1=>2
+  //=> [0,1,2,_,_,_,_,3,_,4] i = 2, second = 2 => 5; => [0,1,2,3,_,_,_,_,_,4] i = 3, second = 5 => 7
+  //I should keep track of my second pointer (second), can stop when second is at iEnd
+  //second should always be >= i. so if second < i, second = i.
   //endLoop
 
   //Can I combine two loops into 1 loop?
   //_ = when nums[i] === prevNum
-  //iNum can stop looking when nums[iNum] !== prevNum
-  //[1,1,2,3] => prev = 1, i = 1, nums[1] = 1, trigger nums[i] <= prev 1 <= 1, iNum = i if (iNum < i) = 1 => 2
-  //swap  [1,2,1,3], prev = nums[i] = 2; prev = 2, i = 2, nums[2] = 1, trigger 1 <= 2, iNum = 2 => 3,
-  //swap [1,2,3,1], prev = nums[i] = 3; prev = 3, i = 3, nums[3] = 1, trigger 1 <= 3, if(iNum === end), then nums[i] = _
+  //second can stop looking when nums[second] !== prevNum
+  //[1,1,2,3] => prev = 1, i = 1, nums[1] = 1, trigger nums[i] <= prev 1 <= 1, second = i if (second < i) = 1 => 2
+  //swap  [1,2,1,3], prev = nums[i] = 2; prev = 2, i = 2, nums[2] = 1, trigger 1 <= 2, second = 2 => 3,
+  //swap [1,2,3,1], prev = nums[i] = 3; prev = 3, i = 3, nums[3] = 1, trigger 1 <= 3, if(second === end), then nums[i] = _
   //[1,2,3,_]
   console.log(`removeDuplicates(${nums})`);
   let prev = nums[0];
   let k = nums.length;
   const iEnd = nums.length - 1;
-  for(let i = 1, iNum = i; i < nums.length; i++) {
-      if(nums[i] <= prev) {
-          while(nums[iNum] <= prev) {
-            if(iNum === iEnd) {
+  for(let first = 1, second = first; first < nums.length;first++) {
+      //if current number <= previous number, then array is not in increasing order, need to swap to maintain or set to _
+      if(nums[first] <= prev) {
+        //look for number to swap
+          while(nums[second] <= prev) {
+            if(second === iEnd) {
               break;
             }
-            iNum ++;
+            second ++;
           }
-
-          if(nums[iNum] > prev)
+          //found number to swap
+          if(nums[second] > prev)
           {
-            let tmp = nums[i];
-            nums[i] = nums[iNum];
-            nums[iNum] =  tmp;
+            let tmp = nums[first];
+            nums[first] = nums[second];
+            nums[second] =  tmp;
           }
           else
           {
-            nums[i] = '_';
+            nums[first] = '_';
             k--;
           }
       }
-
-      if(nums[i] !== '_') {
-        prev = nums[i];
-      }
-      if(iNum < i) {
-        iNum = i;
+      //continue to search unless we're at the second part of array searching
+      if(nums[first] !== '_') {
+        prev = nums[first];
       }
   }
   console.log(`nums = ${nums}`);
@@ -82,3 +81,4 @@ console.log(removeDuplicates([1,1]));//1
 console.log(removeDuplicates([1,1,1]));//1
 console.log(removeDuplicates([1,1,2]));//2
 console.log(removeDuplicates([1,1,2,2,3]));//3
+console.log(removeDuplicates([1,2,2,2,3]));//3
