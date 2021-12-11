@@ -40,6 +40,7 @@ function increaseByOne(digits) {
 console.log(increaseByOne(null));//-1
 console.log(increaseByOne([]));//-1
 console.log(increaseByOne([15]));//-1
+console.log(increaseByOne([6, 12]));//-1
 
 console.log(increaseByOne([8]));//9
 console.log(increaseByOne([9]));//10
@@ -48,4 +49,4 @@ console.log(increaseByOne([9,9,9]));//1000
 console.log(increaseByOne([9,9,1]));//992
 console.log(increaseByOne([1,0,9]));//110
 
-console.log(increaseByOne([4,3,2,1]));//4322
+console.log(increaseByOne([4,3,2,1]));//110
