@@ -52,3 +52,27 @@ export class BinaryTree
     return this.#inorderTraversal;
   }
 }
+
+export class BinaryNode {
+  constructor(value, left, right) {
+    this.value = value;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+export function toBinaryTree(list) {
+  function createBinaryTreeRecursive(i) {
+    if(list == null || i >= list.length || list[i] == null) {
+      return null;
+    }
+    let  root = new BinaryNode(list[i]);
+    root.left = createBinaryTreeRecursive(i * 2 + 1);
+    root.right = createBinaryTreeRecursive(i * 2 + 2);
+    return root;
+  }
+  return createBinaryTreeRecursive(0);
+}
+console.log(toBinaryTree(null));
+console.log(toBinaryTree([1]).toString());
+console.log(toBinaryTree([6,2,8,0,4,7,9,null,null,3,5]).toString());
