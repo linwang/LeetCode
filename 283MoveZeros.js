@@ -16,58 +16,27 @@
 //if zero == null, move zero to next zero
 //T O(n) S O(1)
 
+//keep two pointers, nonZeroPtr = 0 and nextPtr = 0
+//nums[nonZero] !== 0, nums[nextPtr] = nums[nonZero], nextPtr++
+//nums[nonZero] === 0, do nothing
+//nonZero > end, exit loop
+//nextPtr until end should be filled with 0s
+
+
 function moveZerosToEnd(nums) {
   if(nums == null) {
     return nums;
   }
-
-  function getNext(condition, array, i) {
-    if(i == null) {
-      i = 0;
-    }
-    else {
-      i++;
-    }
-    while(true) {
-      if(condition(array, i)) {
-        return i;
-      }
-      i++;
+  let next = 0;
+  for(let num of nums) {
+    if(num !== 0) {
+      nums[next] = num;
+      next++;
     }
   }
-  function getNextZero(index) {
-    return getNext((nums, index) => {
-      return (index >= nums.length || nums[index] === 0);
-    }, nums, index);
-  }
-  function getNextNon(index) {
-    return getNext((nums, index) => {
-      return (index >= nums.length || nums[index] !== 0);
-    }, nums, index);
-  }
-  const end = nums.length - 1;
-  let non, zero;
-  for(let i = 0; i < end; i++) {
-
-      if(zero == null) {
-        zero = getNextZero(zero);
-      }
-      if(non == null || non < zero) {
-        non = getNextNon(non);
-      }
-
-      if(zero > end) {
-        break;
-      }
-      if(non > end) {
-        break;
-      }
-
-      if(zero < non) {
-        [nums[non], nums[zero]] = [nums[zero], nums[non]];
-        zero = getNextZero(zero);
-        non = getNextNon(non);
-      }
+  while(next < nums.length) {
+    nums[next] = 0;
+    next++;
   }
   return nums;
 }
