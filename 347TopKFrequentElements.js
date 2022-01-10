@@ -36,7 +36,9 @@ function getTopElements(nums, k) {
       result.push(num);
     }
     else {
-      _sortDescending(result, frequency);
+      result.sort((a, b) => {
+        return frequency[b] - frequency[a];
+      });
       if(frequency[num] > frequency[result[k - 1]]){
         result[k - 1] = num;
       }
@@ -48,7 +50,9 @@ function getTopElements(nums, k) {
 console.log(getTopElements(null, 2))
 console.log(getTopElements([], null))
 console.log(getTopElements([], 2))
-console.log(getTopElements([1], -1))
+console.log(getTopElements([1], 0))
 console.log(getTopElements([1,2,1,2,3,1], 4))
 
-console.log(getTopElements([1,2,1,2,3,1], 2))
+console.log(getTopElements([3,1,2,3,2,3], 1))
+console.log(getTopElements([3,1,2,3,2,3], 2))
+console.log(getTopElements([3,1,2,3,2,3,4,4,4,4], 3))
