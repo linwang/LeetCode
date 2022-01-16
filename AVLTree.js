@@ -23,10 +23,7 @@ class Node {
   }
 }
 class AVL {
-  constructor(arr) {
-    if(arr != null) {
-      this.head = _convertToAVL(arr);
-    }
+  constructor() {    
     this.head = null;
   }
 
