@@ -6,13 +6,12 @@
 //left child
 //right child
 //value
-//level to root?
+//level to leaf
 
-//constructor(arr)
+//constructor()
 //insert
 //delete
-//_rotateLeft
-//_rotateRight
+//toString
 
 class Node {
   constructor(value, left, right, level){
